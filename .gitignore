@@ -1,0 +1,40 @@
+# Ignore everything except web_api_tests and .github
+/*
+!.gitignore
+!.github
+!web_api_tests
+!README.md
+!LICENSE
+
+# Within web_api_tests, ignore build artifacts and dependencies
+web_api_tests/**/.venv/
+web_api_tests/**/.env
+web_api_tests/**/.env.local
+web_api_tests/**/node_modules/
+web_api_tests/**/npm-debug.log
+web_api_tests/**/yarn-error.log
+web_api_tests/**/.next/
+web_api_tests/**/out/
+web_api_tests/**/bin/
+web_api_tests/**/obj/
+web_api_tests/**/__pycache__/
+web_api_tests/**/*.pyc
+web_api_tests/**/*.pyo
+web_api_tests/**/.env
+web_api_tests/**/.env.local
+
+# IDE & Editor
+web_api_tests/**/.idea/
+web_api_tests/**/.vscode/
+web_api_tests/**/*.swp
+web_api_tests/**/*.swo
+web_api_tests/**/*~
+web_api_tests/**/.DS_Store
+web_api_tests/**/Thumbs.db
+
+# Logs
+web_api_tests/**/*.log
+web_api_tests/**/logs/
+
+# Docker overrides
+web_api_tests/**/docker-compose.override.yml

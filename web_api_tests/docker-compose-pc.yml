@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  # PC Node (Port 3000-3001)
+  node-api:
+    build: ./nodejs
+    ports:
+      - "0.0.0.0:3000:3000"
+    restart: unless-stopped
+
+  python-api:
+    build: ./python
+    ports:
+      - "0.0.0.0:3001:3001"
+    restart: unless-stopped
+
+  # Webhook receiver for auto-updates
+  webhook:
+    image: curlimages/curl:latest
+    command: sh -c "echo 'Run this on PC to receive webhooks from RPi'"
+    ports:
+      - "9000:9000"

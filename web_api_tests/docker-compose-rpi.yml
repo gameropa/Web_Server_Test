@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  # RPi5 Node (Port 3002-3003)
+  csharp-api:
+    build: ./csharp
+    ports:
+      - "0.0.0.0:3002:3002"
+    environment:
+      - ASPNETCORE_URLS=http://+:3002
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "0.0.0.0:3003:3003"
+    environment:
+      # Replace PC_IP with actual PC IP address
+      - NEXT_PUBLIC_NODE_API=http://PC_IP:3000
+      - NEXT_PUBLIC_PY_API=http://PC_IP:3001
+      - NEXT_PUBLIC_CS_API=http://localhost:3002
+    restart: unless-stopped
+
+  # Watchtower for auto-updates on git push
+  watchtower:
+    image: containrrr/watchtower:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 300 --cleanup
+    restart: unless-stopped

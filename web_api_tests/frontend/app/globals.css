@@ -1,0 +1,189 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap");
+
+:root {
+  --bg: #0f1720;
+  --panel: #121c29;
+  --accent: #6ee7ff;
+  --muted: #93adc2;
+  --border: rgba(255, 255, 255, 0.08);
+  --success: #6ee7a6;
+  --warn: #ffc861;
+  --error: #ff7b7b;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  background: radial-gradient(circle at 20% 20%, #143049, #0f1720 45%),
+    radial-gradient(circle at 80% 0%, rgba(110, 231, 255, 0.15), transparent 35%),
+    #0f1720;
+  color: #e7f0f8;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.tagline {
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), transparent);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.card h3,
+.card h4 {
+  margin: 0 0 10px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.server-pill {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.server-pill.active {
+  border-color: var(--accent);
+  background: rgba(110, 231, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+.server-meta {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  color: #e7f0f8;
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+button {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, #1b2636, #0f1720);
+  color: #e7f0f8;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+}
+
+button.primary {
+  border-color: var(--accent);
+  box-shadow: 0 10px 25px rgba(110, 231, 255, 0.15);
+}
+
+button:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status.ok .status-dot {
+  background: var(--success);
+  box-shadow: 0 0 10px rgba(110, 231, 166, 0.6);
+}
+
+.status.warn .status-dot {
+  background: var(--warn);
+  box-shadow: 0 0 10px rgba(255, 200, 97, 0.6);
+}
+
+.status.error .status-dot {
+  background: var(--error);
+  box-shadow: 0 0 10px rgba(255, 123, 123, 0.6);
+}
+
+pre {
+  background: #0a111a;
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: 12px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.footer-note {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 13px;
+}

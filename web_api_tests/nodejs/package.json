@@ -1,0 +1,19 @@
+{
+  "name": "social-media-api",
+  "version": "1.0.0",
+  "description": "Social Media API - Node.js/Express",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test:load": "node tests/load_test.js",
+    "test:stress": "node tests/stress_test.js",
+    "test:concurrent": "node tests/concurrent_test.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {}
+}

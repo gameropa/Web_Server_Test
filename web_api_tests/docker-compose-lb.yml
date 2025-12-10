@@ -1,0 +1,78 @@
+version: "3.9"
+services:
+  # Node API Instances (Load Balanced)
+  node-api-1:
+    image: web-api-node:latest
+    environment:
+      - PORT=3000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.node-api.rule=Host(`api.example.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.node-api.entrypoints=web,websecure"
+      - "traefik.http.services.node-api.loadbalancer.server.port=3000"
+    restart: unless-stopped
+
+  node-api-2:
+    image: web-api-node:latest
+    environment:
+      - PORT=3000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.node-api.loadbalancer.server.port=3000"
+    restart: unless-stopped
+
+  # Python API Instances (Load Balanced)
+  python-api-1:
+    image: web-api-python:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.python-api.rule=Host(`api.example.com`) && PathPrefix(`/api`)"
+      - "traefik.http.services.python-api.loadbalancer.server.port=3001"
+    restart: unless-stopped
+
+  python-api-2:
+    image: web-api-python:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.python-api.loadbalancer.server.port=3001"
+    restart: unless-stopped
+
+  # C# API (Single for now, can scale)
+  csharp-api:
+    image: web-api-csharp:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.csharp-api.rule=Host(`api.example.com`) && PathPrefix(`/api`)"
+      - "traefik.http.services.csharp-api.loadbalancer.server.port=3002"
+    restart: unless-stopped
+
+  # Frontend
+  frontend:
+    image: web-api-frontend:latest
+    environment:
+      - NEXT_PUBLIC_NODE_API=http://node-api:3000
+      - NEXT_PUBLIC_PY_API=http://python-api:3001
+      - NEXT_PUBLIC_CS_API=http://csharp-api:3002
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`localhost`) || Host(`example.com`)"
+      - "traefik.http.routers.frontend.entrypoints=web"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3003"
+    restart: unless-stopped
+
+  # Traefik Reverse Proxy & Load Balancer
+  traefik:
+    image: traefik:v2.10
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Traefik Dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
