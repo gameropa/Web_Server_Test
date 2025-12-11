@@ -7,7 +7,14 @@ RUN npm install
 # Build
 FROM node:20-alpine AS build
 WORKDIR /app
-ENV NEXT_TELEMETRY_DISABLED=1
+# Inject public env vars at build time so Next.js embeds them
+ARG NEXT_PUBLIC_NODE_API
+ARG NEXT_PUBLIC_PY_API
+ARG NEXT_PUBLIC_CS_API
+ENV NEXT_TELEMETRY_DISABLED=1 \
+	NEXT_PUBLIC_NODE_API=${NEXT_PUBLIC_NODE_API} \
+	NEXT_PUBLIC_PY_API=${NEXT_PUBLIC_PY_API} \
+	NEXT_PUBLIC_CS_API=${NEXT_PUBLIC_CS_API}
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build

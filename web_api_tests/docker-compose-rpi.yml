@@ -15,15 +15,19 @@ services:
     restart: unless-stopped
 
   frontend:
-    image: king704spider/web-api-frontend:latest
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_NODE_API: ${NEXT_PUBLIC_NODE_API}
+        NEXT_PUBLIC_PY_API: ${NEXT_PUBLIC_PY_API}
+        NEXT_PUBLIC_CS_API: ${NEXT_PUBLIC_CS_API}
     ports:
       - "0.0.0.0:3003:3003"
     environment:
-      # Use IP addresses for external access from browser
-      # Set PC_IP env var or defaults to 'web-api-pc'
-      - NEXT_PUBLIC_NODE_API=http://${PC_IP:-web-api-pc}:3000
-      - NEXT_PUBLIC_PY_API=http://${PC_IP:-web-api-pc}:3001
-      - NEXT_PUBLIC_CS_API=http://192.168.0.36:3002
+      # Runtime envs (not used by Next.js build), kept for completeness
+      - NEXT_PUBLIC_NODE_API
+      - NEXT_PUBLIC_PY_API
+      - NEXT_PUBLIC_CS_API
     hostname: web-api-frontend
     dns:
       - 127.0.0.11
