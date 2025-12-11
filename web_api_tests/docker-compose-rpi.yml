@@ -14,10 +14,11 @@ services:
     ports:
       - "0.0.0.0:3003:3003"
     environment:
-      # Replace PC_IP with actual PC IP address
-      - NEXT_PUBLIC_NODE_API=http://PC_IP:3000
-      - NEXT_PUBLIC_PY_API=http://PC_IP:3001
-      - NEXT_PUBLIC_CS_API=http://localhost:3002
+      # Set PC_IP environment variable before running (e.g., export PC_IP=192.168.1.100)
+      # or use: docker compose -e PC_IP=192.168.1.100 up
+      - NEXT_PUBLIC_NODE_API=http://${PC_IP:-192.168.1.100}:3000
+      - NEXT_PUBLIC_PY_API=http://${PC_IP:-192.168.1.100}:3001
+      - NEXT_PUBLIC_CS_API=http://${PC_IP:-192.168.1.100}:3002
     restart: unless-stopped
 
   # Watchtower for auto-updates on git push
