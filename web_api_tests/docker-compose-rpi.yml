@@ -1,8 +1,7 @@
-version: "3.9"
 services:
   # RPi5 Node (Port 3002-3003)
   csharp-api:
-    build: ./csharp
+    image: king704spider/web-api-csharp:latest
     ports:
       - "0.0.0.0:3002:3002"
     environment:
@@ -11,7 +10,7 @@ services:
     restart: unless-stopped
 
   frontend:
-    build: ./frontend
+    image: king704spider/web-api-frontend:latest
     ports:
       - "0.0.0.0:3003:3003"
     environment:
