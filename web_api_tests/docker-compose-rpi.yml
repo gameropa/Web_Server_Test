@@ -7,6 +7,8 @@ services:
     environment:
       - ASPNETCORE_URLS=http://+:3002
     hostname: web-api-csharp
+    dns:
+      - 127.0.0.11
     dns_search: []
     networks:
       - web-network
@@ -23,6 +25,8 @@ services:
       - NEXT_PUBLIC_PY_API=http://${PC_HOSTNAME:-web-api-pc}:3001
       - NEXT_PUBLIC_CS_API=http://web-api-csharp:3002
     hostname: web-api-frontend
+    dns:
+      - 127.0.0.11
     dns_search: []
     networks:
       - web-network
