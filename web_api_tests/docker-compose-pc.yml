@@ -5,17 +5,14 @@ services:
     build: ./nodejs
     ports:
       - "0.0.0.0:3000:3000"
+    environment:
+      - PORT=3000
+    hostname: web-api-node
     restart: unless-stopped
 
   python-api:
     build: ./python
     ports:
       - "0.0.0.0:3001:3001"
+    hostname: web-api-python
     restart: unless-stopped
-
-  # Webhook receiver for auto-updates
-  webhook:
-    image: curlimages/curl:latest
-    command: sh -c "echo 'Run this on PC to receive webhooks from RPi'"
-    ports:
-      - "9000:9000"

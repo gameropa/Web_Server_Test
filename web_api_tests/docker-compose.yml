@@ -6,25 +6,29 @@ services:
       - "3000:3000"
     environment:
       - PORT=3000
+    hostname: web-api-node
     restart: unless-stopped
   python-api:
     build: ./python
     ports:
       - "3001:3001"
+    hostname: web-api-python
     restart: unless-stopped
   csharp-api:
     build: ./csharp
     ports:
       - "3002:3002"
+    hostname: web-api-csharp
     restart: unless-stopped
   frontend:
     build: ./frontend
     ports:
       - "3003:3003"
     environment:
-      - NEXT_PUBLIC_NODE_API=http://node-api:3000
-      - NEXT_PUBLIC_PY_API=http://python-api:3001
-      - NEXT_PUBLIC_CS_API=http://csharp-api:3002
+      - NEXT_PUBLIC_NODE_API=http://web-api-node:3000
+      - NEXT_PUBLIC_PY_API=http://web-api-python:3001
+      - NEXT_PUBLIC_CS_API=http://web-api-csharp:3002
+    hostname: web-api-frontend
     depends_on:
       - node-api
       - python-api

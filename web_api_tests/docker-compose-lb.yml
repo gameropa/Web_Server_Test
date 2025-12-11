@@ -5,10 +5,10 @@ services:
     image: web-api-node:latest
     environment:
       - PORT=3000
+    hostname: web-api-node-1
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.node-api.rule=Host(`api.example.com`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.node-api.entrypoints=web,websecure"
+      - "traefik.http.routers.node-api.rule=Host(`api.local`)"
       - "traefik.http.services.node-api.loadbalancer.server.port=3000"
     restart: unless-stopped
 
@@ -16,6 +16,7 @@ services:
     image: web-api-node:latest
     environment:
       - PORT=3000
+    hostname: web-api-node-2
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.node-api.loadbalancer.server.port=3000"
@@ -24,14 +25,16 @@ services:
   # Python API Instances (Load Balanced)
   python-api-1:
     image: web-api-python:latest
+    hostname: web-api-python-1
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.python-api.rule=Host(`api.example.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.python-api.rule=Host(`api.local`)"
       - "traefik.http.services.python-api.loadbalancer.server.port=3001"
     restart: unless-stopped
 
   python-api-2:
     image: web-api-python:latest
+    hostname: web-api-python-2
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.python-api.loadbalancer.server.port=3001"
@@ -40,9 +43,10 @@ services:
   # C# API (Single for now, can scale)
   csharp-api:
     image: web-api-csharp:latest
+    hostname: web-api-csharp
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.csharp-api.rule=Host(`api.example.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.csharp-api.rule=Host(`api.local`)"
       - "traefik.http.services.csharp-api.loadbalancer.server.port=3002"
     restart: unless-stopped
 
@@ -50,13 +54,13 @@ services:
   frontend:
     image: web-api-frontend:latest
     environment:
-      - NEXT_PUBLIC_NODE_API=http://node-api:3000
-      - NEXT_PUBLIC_PY_API=http://python-api:3001
-      - NEXT_PUBLIC_CS_API=http://csharp-api:3002
+      - NEXT_PUBLIC_NODE_API=http://web-api-node-1:3000
+      - NEXT_PUBLIC_PY_API=http://web-api-python-1:3001
+      - NEXT_PUBLIC_CS_API=http://web-api-csharp:3002
+    hostname: web-api-frontend
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`localhost`) || Host(`example.com`)"
-      - "traefik.http.routers.frontend.entrypoints=web"
+      - "traefik.http.routers.frontend.rule=Host(`localhost`) || Host(`api.local`)"
       - "traefik.http.services.frontend.loadbalancer.server.port=3003"
     restart: unless-stopped
 
