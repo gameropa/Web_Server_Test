@@ -16,10 +16,10 @@ builder.Services.AddCors();
 
 var app = builder.Build();
 
-app.UseCors(x => x
+app.UseCors(policy => policy
+    .AllowAnyOrigin()
     .AllowAnyMethod()
-    .AllowAnyHeader()
-    .SetIsOriginAllowed(origin => true));
+    .AllowAnyHeader());
 
 // Health Check
 app.MapGet("/health", () => new { status = "ok", timestamp = DateTime.Now });
