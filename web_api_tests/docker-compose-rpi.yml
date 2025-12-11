@@ -7,6 +7,8 @@ services:
     environment:
       - ASPNETCORE_URLS=http://+:3002
     hostname: web-api-csharp
+    networks:
+      - web-network
     restart: unless-stopped
 
   frontend:
@@ -20,6 +22,8 @@ services:
       - NEXT_PUBLIC_PY_API=http://${PC_HOSTNAME:-web-api-pc}:3001
       - NEXT_PUBLIC_CS_API=http://web-api-csharp:3002
     hostname: web-api-frontend
+    networks:
+      - web-network
     restart: unless-stopped
 
   # Watchtower for auto-updates on git push
@@ -28,4 +32,10 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 300 --cleanup
+    networks:
+      - web-network
     restart: unless-stopped
+
+networks:
+  web-network:
+    driver: bridge
