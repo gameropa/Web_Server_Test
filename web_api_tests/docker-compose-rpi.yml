@@ -19,10 +19,11 @@ services:
     ports:
       - "0.0.0.0:3003:3003"
     environment:
-      # Use localhost for APIs on the same RPi5, use PC_HOSTNAME for PC APIs
-      - NEXT_PUBLIC_NODE_API=http://${PC_HOSTNAME:-web-api-pc}:3000
-      - NEXT_PUBLIC_PY_API=http://${PC_HOSTNAME:-web-api-pc}:3001
-      - NEXT_PUBLIC_CS_API=http://localhost:3002
+      # Use IP addresses for external access from browser
+      # Set PC_IP env var or defaults to 'web-api-pc'
+      - NEXT_PUBLIC_NODE_API=http://${PC_IP:-web-api-pc}:3000
+      - NEXT_PUBLIC_PY_API=http://${PC_IP:-web-api-pc}:3001
+      - NEXT_PUBLIC_CS_API=http://192.168.0.36:3002
     hostname: web-api-frontend
     dns:
       - 127.0.0.11
