@@ -18,9 +18,9 @@ services:
     build:
       context: ./frontend
       args:
-        NEXT_PUBLIC_NODE_API: ${NEXT_PUBLIC_NODE_API}
-        NEXT_PUBLIC_PY_API: ${NEXT_PUBLIC_PY_API}
-        NEXT_PUBLIC_CS_API: ${NEXT_PUBLIC_CS_API}
+        NEXT_PUBLIC_NODE_API: "http://192.168.0.62:3000"
+        NEXT_PUBLIC_PY_API: "http://192.168.0.62:3001"
+        NEXT_PUBLIC_CS_API: "http://192.168.0.36:3002"
     ports:
       - "0.0.0.0:3003:3003"
     environment:
